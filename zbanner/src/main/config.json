@@ -1,0 +1,25 @@
+{
+  "app": {
+    "bundleName": "com.example.first_app",
+    "vendor": "example",
+    "version": {
+      "code": 1000000,
+      "name": "1.0.0"
+    }
+  },
+  "deviceConfig": {
+  },
+  "module": {
+    "package": "com.example.zbanner",
+    "deviceType": [
+      "phone",
+      "tablet",
+      "tv"
+    ],
+    "distro": {
+      "deliveryWithInstall": true,
+      "moduleName": "zbanner",
+      "moduleType": "har"
+    }
+  }
+}

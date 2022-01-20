@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<ohos.support.constraint.ConstraintLayout-->
+<!--    xmlns:ohos="http://schemas.ohos.com/apk/res/ohos"-->
+<!--    xmlns:custom="http://schemas.ohos.com/apk/res-auto"-->
+<!--    xmlns:ohos="http://schemas.huawei.com/res/ohos"-->
+<!--    ohos:layout_width=""-->
+<!--    ohos:layout_height="200dp">-->
+<DependentLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    xmlns:custom="http://schemas.huawei.com/res/custom"
+    ohos:height="match_parent"
+    ohos:width="200fp" >
+
+<com.zhuang.zbanner.ZBanner
+        ohos:id="$+id:zBanner"
+        ohos:width="match_parent"
+        ohos:height="match_parent"
+        custom:indicatorIconSize="8dp"
+        custom:indicatorMargin="2dp"
+        custom:showIndicator="false"
+        custom:left_of="parent"
+        custom:right_of="parent"
+        custom:above="parent"
+        custom:offscreenPageLimit="2" />
+
+    <Text
+        ohos:id="$+id:title"
+        ohos:height="match_parent"
+        ohos:width="match_content"
+        ohos:left_of="$id:zBanner"
+        ohos:background_element="#f2f2f2"
+        ohos:padding="10fp"
+        ohos:text="left_of"
+        ohos:text_size="18fp"
+        ohos:text_color="#FFFFFF"/>
+
+    <com.zhuang.zbanner.Indicator
+        ohos:id="$+id:indicator"
+        ohos:right_margin="10fp"
+        ohos:width="match_content"
+        ohos:height="match_content"
+        custom:right_of="$id:title"
+        custom:above="$id:title" />
+
+</DependentLayout>
+

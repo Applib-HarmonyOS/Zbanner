@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.zhuang.zbanner.ZBanner
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    xmlns:custom="http://schemas.huawei.com/res/custom"
+
+    ohos:id="$+id:zBanner"
+    ohos:width="match_parent"
+    custom:widthFactor=".7"
+    custom:pageGap="8dp"
+    custom:offscreenPageLimit="2"
+    ohos:height="160fp"
+    ohos:top_margin="20fp"
+    />
+
