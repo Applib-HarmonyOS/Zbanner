@@ -1,3 +1,5 @@
+# ZBanner-1
+a custom turntable control
 # ZBanner
 ZBanner是一个真正的轮播控件，并非ViewPager的简单改造。ZBanner使用Adapter+Fragment的方式来展示页面，每一页就是一个Fragment,因此你可以随意设计自己的Fragment,例如形状、加载图片的方式等等。同时提供了转换动画、自定义布局等等让你实现各种炫丽效果。
 
@@ -20,65 +22,67 @@ ZBanner是一个真正的轮播控件，并非ViewPager的简单改造。ZBanner
 
 ## 简单使用
 
- ResourceTable.ability_example.xml
+ResourceTable.temp.xml
   ``` 
-  <?xml version="1.0" encoding="utf-8"?>
-  <com.zhuang.zbannerlibrary.ZBanner xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/zBanner"
-    android:layout_width="match_parent"
-    android:layout_height="200dp" />
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhuang.zbanner.ZBanner
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:id="$+id:zBanner"
+    ohos:width="match_parent"
+    ohos:height="200fp" />
   ```
 java
   ```
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+package com.example.zbanner;
 
-import com.zhuang.zbannerlibrary.ZBanner;
-import com.zhuang.zbannerlibrary.ZBannerAdapter;
+import com.example.zbanner.slice.BannerFraction;
+import com.zhuang.zbanner.ZBanner;
 
-public class ExampleActivity extends AppCompatActivity {
+import com.zhuang.zbanner.ZBannerAdapter;
+import ohos.aafwk.ability.fraction.Fraction;
+import ohos.aafwk.ability.fraction.FractionAbility;
+import ohos.aafwk.ability.fraction.FractionManager;
+import ohos.aafwk.content.Intent;
+import ohos.agp.components.*;
+import ohos.agp.utils.Color;
+import ohos.utils.PacMap;
+
+public class temp extends FractionAbility {
 
     ZBanner zBanner;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_example);
-        zBanner = findViewById(R.id.zBanner);
-        zBanner.setAdapter(new MyBannerAdapter(getSupportFragmentManager()));
+    protected void onStart(Intent savedInstanceState) {
+        super.onStart(savedInstanceState);
+        super.setUIContent(ResourceTable.Layout_temp);
+        zBanner = (ZBanner) findComponentById(ResourceTable.Id_zBanner);
+        zBanner.setAdapter(new MyBannerAdapter(getFractionManager()));
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onActive() {
+        super.onActive();
         //每个页面展示时间为1000ms  页面切换持续时间为2000ms
         zBanner.star(1000,2000);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onInactive() {
+        super.onInactive();
         //停止自动切换
         zBanner.stop();
     }
 
     private class MyBannerAdapter extends ZBannerAdapter {
 
-        public MyBannerAdapter(FragmentManager fm) {
+        public MyBannerAdapter(FractionManager fm) {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int position) {
-            return BannerFragment.newInstance(position);
+        public Fraction getItem(int position) {
+            return BannerFraction.newInstance(position);
         }
 
         @Override
@@ -87,120 +91,102 @@ public class ExampleActivity extends AppCompatActivity {
         }
     }
 
-    public static class BannerFragment extends Fragment {
+    public class BannerFraction extends Fraction {
 
-        private static final String POSITION = "position";
-        int[] colors = {Color.RED, Color.BLUE, Color.GRAY, Color.GREEN, Color.YELLOW};
+        private int resId;
+        private int position;
 
-        public static BannerFragment newInstance(int position) {
-            BannerFragment fragment = new BannerFragment();
-            Bundle args = new Bundle();
-            args.putInt(POSITION, position);
-            fragment.setArguments(args);
+        public BannerFraction() {
+        }
+
+        public static com.example.zbanner.slice.BannerFraction newInstance(int resId, int position) {
+            com.example.zbanner.slice.BannerFraction fragment = new com.example.zbanner.slice.BannerFraction();
+            fragment.setArguments(resId, position);
             return fragment;
         }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            TextView textView = new TextView(getContext());
-            final int position = getArguments().getInt(POSITION);
-            textView.setText(position + "");
-            textView.setTextColor(Color.WHITE);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextSize(30);
-            textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            textView.setBackgroundColor(colors[position]);
-            return textView;
+        private void setArguments(int resId, int position) {
+            this.resId = resId;
+            this.position = position;
         }
+
+        @Override
+        protected Component onComponentAttached(LayoutScatter scatter, ComponentContainer container, Intent intent) {
+            Component rootView = scatter.parse(ResourceTable.Layout_fraction_banner, container, false);
+            Image imageView = (Image) rootView.findComponentById(ResourceTable.Id_imageView);
+
+            imageView.setPixelMap(resId);
+            rootView.setClickedListener(new Component.ClickedListener() {
+                @Override
+                public void onClick(Component component) {
+                    Util.createToast(com.example.zbanner.slice.BannerFraction.this,
+                            "click:position=" + position).show();
+                }
+            });
+            return rootView;
+        }
+
+
     }
+
 }
 
   ```
   
-  ## Slice
-  
-  ### BannerFragment
-```
-import com.example.zbanner.ResourceTable;
-import com.example.zbanner.Util;
-import ohos.aafwk.ability.fraction.Fraction;
-import ohos.aafwk.content.Intent;
-import ohos.agp.components.Component;
-import ohos.agp.components.ComponentContainer;
-import ohos.agp.components.Image;
-import ohos.agp.components.LayoutScatter;
-
-public class BannerFragment extends Fraction {
-
-    private int resId;
-    private int position;
-
-    public BannerFragment() {
-    }
-
-    public static BannerFragment newInstance(int resId, int position) {
-        BannerFragment fragment = new BannerFragment();
-        fragment.setArguments(resId, position);
-        return fragment;
-    }
-
-    private void setArguments(int resId, int position) {
-        this.resId = resId;
-        this.position = position;
-    }
-
-    @Override
-    protected Component onComponentAttached(LayoutScatter scatter, ComponentContainer container, Intent intent) {
-        Component rootView = scatter.parse(ResourceTable.Layout_fragment_banner, container, false);
-        Image imageView = (Image) rootView.findComponentById(ResourceTable.Id_imageView);
-
-        imageView.setPixelMap(resId);
-        rootView.setClickedListener(new Component.ClickedListener() {
-            @Override
-            public void onClick(Component component) {
-                Util.createToast(BannerFragment.this, "click:position=" + position).show();
-            }
-        });
-        return rootView;
-    }
-
-
-}
-
-```
-
   
 ## 转换动画
 ```
 zBanner.setPageTransformer(new Flip3DTransformer());
 ```
-ZBanner提供了多种转换动画效果：AccordionTransformer、AccordionTransformer1、DepthPageTransformer、DrawerTransformer、Flip3DTransformer、FlipHorizontalTransformer、RotateDownTransformer、StackTransformer、ZoomOutTransformer  
+ZBanner提供了多种转换动画效果：
+- AccordionTransformer
+- AccordionTransformer1
+- DepthPageTransformer 
+- DrawerTransformer 
+- Flip3DTransformer 
+- FlipHorizontalTransformer 
+- RotateDownTransformer 
+- StackTransformer 
+- ZoomOutTransformer  
+
 ZBanner允许用户自定义Transformer，只需实现接口ZBannerPageTransformer，例如AccordionTransformer的实现如下：
+
+
+
+
 ```
+
+
+
+import com.zhuang.zbanner.ZBanner;
+import ohos.agp.components.Component;
+
 public class AccordionTransformer implements ZBanner.ZBannerPageTransformer {
 
-   /**
-    * @param page     在切换的页面
-    * @param position 正在切换的页面相对于当前显示在正中间的页面的位置
-    *                 0表示当前页，1表示右侧一页，-1表示左侧一页。
-    *                 注意，这几个都是临界值，position在页面切换过程中会一直改变
-    *                 例如左移的话，当前页的position会从0减少到-1，切换完成后就变成左侧一页了。
-    */
 
+    /**
+     * @param page     在切换的页面
+     * @param position 正在切换的页面相对于当前显示在正中间的页面的位置
+     *                 0表示当前页，1表示右侧一页，-1表示左侧一页。
+     *                 注意，这几个都是临界值，position在页面切换过程中会一直改变
+     *                 例如左移的话，当前页的position会从0减少到-1，切换完成后就变成左侧一页了。
+     */
+    
     @Override
-    public void transformPage(View view, float position) {
-        final float width = view.getWidth();
+    public void transformPage(Component component, float position) {
+        final float width = component.getWidth();
         if (position >= 0 && position <= 1) {
-            view.setTranslationX(-width * position);
-            view.setPivotX(width);
-            view.setScaleX(1f - position);
+            component.setTranslationX(-width * position);
+            component.setPivotX(width);
+            component.setScaleX(1f - position);
         } else if (position < 0 && position >= -1) {
-            view.setTranslationX(0);
-            view.setPivotX(0);
-            view.setScaleX(1f);
+            component.setTranslationX(0);
+            component.setPivotX(0);
+            component.setScaleX(1f);
         }
     }
 }
+
 ```
 用一张图来说明transformPage的position参数
 
