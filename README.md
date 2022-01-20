@@ -1,5 +1,3 @@
-# ZBanner-1
-a custom turntable control
 # ZBanner
 ZBanner是一个真正的轮播控件，并非ViewPager的简单改造。ZBanner使用Adapter+Fragment的方式来展示页面，每一页就是一个Fragment,因此你可以随意设计自己的Fragment,例如形状、加载图片的方式等等。同时提供了转换动画、自定义布局等等让你实现各种炫丽效果。
 
