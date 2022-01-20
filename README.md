@@ -210,56 +210,56 @@ public class AccordionTransformer implements ZBanner.ZBannerPageTransformer {
 如果你对ZBanner默认的布局不满意，例如indicator的位置不满意，ZBanner的样式不满意，可以自定义布局。例如下面的效果  
 ![](https://github.com/likeadog/Zbanner/blob/master/screenshot/12.gif)  
 该界面把Zbanner与indicator分开，首先需要设置默认的indicator为false，让ZBanner不显示自身的indicator,再把你自己的indicator按你想要的位置来布局到界面中。
-```
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="200dp">
+```<?xml version="1.0" encoding="utf-8"?>
+<DependentLayout
+    xmlns:custom="http://schemas.huawei.com/res/custom"
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:width="match_parent"
+    ohos:height="200fp">
 
-    <com.zhuang.zbannerlibrary.ZBanner
-        android:id="@+id/zBanner"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:indicatorIconSize="8dp"
-        app:indicatorMargin="2dp"
-        app:showIndicator="false"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:offscreenPageLimit="2" />
+    <com.zhuang.zbanner.ZBanner
+        ohos:id="$+id:zBanner"
+        ohos:width="match_parent"
+        ohos:height="match_parent"
+        custom:indicatorIconSize="8dp"
+        custom:indicatorMargin="2dp"
+        custom:showIndicator="false"
+        custom:layout_constraintLeft_toLeftOf="parent"
+        custom:layout_constraintRight_toRightOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:offscreenPageLimit="2" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#66000000"
-        android:padding="10dp"
-        android:textColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="@+id/zBanner" />
+    <Text
+        ohos:id="$+id:title"
+        ohos:width="match_parent"
+        ohos:height="match_content"
+        ohos:background_element="#66000000"
+        ohos:padding="10fp"
+        ohos:text_color="#ffffff"
+        custom:layout_constraintBottom_toBottomOf="@+id/zBanner" />
 
-    <com.zhuang.zbannerlibrary.Indicator
-        android:layout_marginRight="10dp"
-        android:id="@+id/indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/title"
-        app:layout_constraintRight_toRightOf="@id/title"
-        app:layout_constraintTop_toTopOf="@+id/title" />
+    <com.zhuang.zbanner.Indicator
+        ohos:right_margin="10fp"
+        ohos:id="$+id:indicator"
+        ohos:width="match_content"
+        ohos:height="match_content"
+        custom:layout_constraintBottom_toBottomOf="@+id/title"
+        custom:layout_constraintRight_toRightOf="@id/title"
+        custom:layout_constraintTop_toTopOf="@+id/title" />
 
-</android.support.constraint.ConstraintLayout>
+</DependentLayout>
 ```
 然后在java代码中设置
 ```
-Indicator indicator = findViewById(R.id.indicator);
-zBanner.setIndicator(indicator);
-final TextView title = findViewById(R.id.title);
-zBanner.setOnPageChangeLister(new ZBanner.OnPageChangeLister() {
-    @Override
-    public void change(int position) {
-        title.setText(position + "" );
-    }
-});
+            Indicator indicator = findComponentById(ResourceTable.id_indicator);
+            zBanner.setIndicator(indicator);
+            final Text title = findComponentById(ResourceTable.id_title);
+            zBanner.setOnPageChangeLister(new ZBanner.OnPageChangeLister() {
+                @Override
+                public void change(int position) {
+                    title.setText(position + "" );
+                }
+            });
 ```
 更多详细请看项目中的例子源码
 
