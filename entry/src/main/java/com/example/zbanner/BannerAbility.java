@@ -1,13 +1,11 @@
 package com.example.zbanner;
 
-import com.example.zbanner.slice.BannerAbilitySlice;
-import com.example.zbanner.slice.BannerFragment;
-import com.example.zbanner.slice.BannerFragmentRound;
+import com.example.zbanner.slice.BannerFraction;
+import com.example.zbanner.slice.BannerFractionRound;
 import com.zhuang.zbanner.Indicator;
 import com.zhuang.zbanner.ZBanner;
 import com.zhuang.zbanner.ZBannerAdapter;
 import com.zhuang.zbanner.util.LogUtil;
-import ohos.aafwk.ability.Ability;
 import ohos.aafwk.ability.fraction.Fraction;
 import ohos.aafwk.ability.fraction.FractionAbility;
 import ohos.aafwk.ability.fraction.FractionManager;
@@ -97,7 +95,7 @@ public class BannerAbility extends FractionAbility {
 
         @Override
         public Fraction getItem(int position) {
-            return BannerFragment.newInstance(imgResId[position], position);
+            return BannerFraction.newInstance(imgResId[position], position);
         }
 
         @Override
@@ -114,7 +112,7 @@ public class BannerAbility extends FractionAbility {
 
         @Override
         public Fraction getItem(int position) {
-            return BannerFragmentRound.newInstance(imgResId[position], position);
+            return BannerFractionRound.newInstance(imgResId[position], position);
         }
 
         @Override
