@@ -18,9 +18,9 @@ public class BannerFraction extends Fraction {
     }
 
     public static BannerFraction newInstance(int resId, int position) {
-        BannerFraction fragment = new BannerFraction();
-        fragment.setArguments(resId, position);
-        return fragment;
+        BannerFraction fraction = new BannerFraction();
+        fraction.setArguments(resId, position);
+        return fraction;
     }
 
     private void setArguments(int resId, int position) {

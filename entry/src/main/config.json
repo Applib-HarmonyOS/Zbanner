@@ -57,27 +57,7 @@
         "label": "$string:entry_BannerAbility",
         "type": "page",
         "launchType": "standard"
-      },
-
-
-      {
-        "skills": [
-          {
-            "actions": [
-              "action.banner"
-            ]
-          }
-        ],
-        "orientation": "unspecified",
-        "name": "com.example.zbanner.temp",
-        "icon": "$media:icon",
-        "description": "$string:bannerability_description",
-        "label": "$string:entry_BannerAbility",
-        "type": "page",
-        "launchType": "standard"
       }
-
-
     ]
   }
 }

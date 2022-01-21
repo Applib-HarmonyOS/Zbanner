@@ -113,7 +113,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 
     private void dataSetChanged() {
         for (int i = 0; i < mItems.size(); i++) {
-            mAdapter.destroyItem(mItems.get(i).fragment);
+            mAdapter.destroyItem(mItems.get(i).fraction);
         }
         mAdapter.finishUpdate();
         mItems.clear();
@@ -207,7 +207,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
             curItem.position = mCurPosition;
             curItem.prePosition = curItem.position == 0 ? N - 1 : curItem.position - 1;
             curItem.nextPosition = curItem.position == N - 1 ? 0 : curItem.position + 1;
-            curItem.fragment = Optional.of(mAdapter.instantiateItem(this, mCurPosition).get());
+            curItem.fraction = Optional.of(mAdapter.instantiateItem(this, mCurPosition).get());
             curItem.left = curViewLeft;
             mItems.add(curIndex, curItem);
         } else {
@@ -259,7 +259,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                 if (rightCount <= 0) {
                     mItems.remove(ii);
                     if (N > 2 * mOffscreenPageLimit + 1) {
-                        mAdapter.destroyItem(ii.fragment);
+                        mAdapter.destroyItem(ii.fraction);
                     } else {
                         needRequestLayout = true;
                     }
@@ -278,7 +278,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                 rightii.prePosition = rightii.position == 0 ? N - 1 : rightii.position - 1;
                 rightii.nextPosition = rightii.position == N - 1 ? 0 : rightii.position + 1;
                 rightii.left = curItem.left + offset;
-                rightii.fragment = mAdapter.instantiateItem(this, rightii.position);
+                rightii.fraction = mAdapter.instantiateItem(this, rightii.position);
                 mItems.add(rightii);
             }
             rightCount--;
@@ -296,7 +296,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                 if (leftCount <= 0) {
                     mItems.remove(ii);
                     if (N > 2 * mOffscreenPageLimit + 1) {
-                        mAdapter.destroyItem(ii.fragment);
+                        mAdapter.destroyItem(ii.fraction);
                     } else {
                         needRequestLayout = true;
                     }
@@ -315,7 +315,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                 leftii.prePosition = leftii.position == 0 ? N - 1 : leftii.position - 1;
                 leftii.nextPosition = leftii.position == N - 1 ? 0 : leftii.position + 1;
                 leftii.left = curItem.left - offset;
-                leftii.fragment = mAdapter.instantiateItem(this, leftii.position);
+                leftii.fraction = mAdapter.instantiateItem(this, leftii.position);
                 mItems.add(0, leftii);
             }
             leftCount--;
@@ -331,7 +331,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                 ii.position = i;
                 ii.prePosition = Math.abs(i - 1);
                 ii.nextPosition = Math.abs(i - 1);
-                ii.fragment = mAdapter.instantiateItem(this, ii.position);
+                ii.fraction = mAdapter.instantiateItem(this, ii.position);
                 ii.left = i * (mWidth + mPageGap);
                 mItems.add(ii);
             }
@@ -343,7 +343,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     ItemInfo infoForChild(Component child) {
         for (int i = 0; i < mItems.size(); i++) {
             ItemInfo ii = mItems.get(i);
-            if (mAdapter.isViewFromObject(child, ii.fragment.get())) {
+            if (mAdapter.isViewFromObject(child, ii.fraction.get())) {
                 return ii;
             }
         }
@@ -494,9 +494,9 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 
         private void setFirstAndLast() {
             firstItem = mItems.get(0);
-            firstView = firstItem.fragment.get().getComponent();
+            firstView = firstItem.fraction.get().getComponent();
             lastItem = mItems.get(mItems.size() - 1);
-            lastView = lastItem.fragment.get().getComponent();
+            lastView = lastItem.fraction.get().getComponent();
         }
 
         @Override
@@ -586,7 +586,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         final int size = mItems.size();
         for (int i = 0; i < size; i++) {
             if (mItems.get(i).position == position) {
-                return mItems.get(i).fragment.get().getComponent();
+                return mItems.get(i).fraction.get().getComponent();
             }
         }
         return null;
@@ -631,7 +631,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     private int viewPosition(Component child) {
         final int size = mItems.size();
         for (int i = 0; i < size; i++) {
-            if (mItems.get(i).fragment.get().getComponent() == child) {
+            if (mItems.get(i).fraction.get().getComponent() == child) {
                 return i;
             }
         }

@@ -18,9 +18,9 @@ public class BannerFractionRound extends Fraction {
     }
 
     public static BannerFractionRound newInstance(int resId, int position) {
-        BannerFractionRound fragment = new BannerFractionRound();
-        fragment.setArguments(resId, position);
-        return fragment;
+        BannerFractionRound fraction = new BannerFractionRound();
+        fraction.setArguments(resId, position);
+        return fraction;
     }
 
     private void setArguments(int resId, int position) {

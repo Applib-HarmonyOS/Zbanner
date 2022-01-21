@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 
 public class ItemInfo {
-    public Optional<Fraction> fragment;
+    public Optional<Fraction> fraction;
     public int position;
     public int prePosition;
     public int nextPosition;
