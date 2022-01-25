@@ -1,37 +1,42 @@
 package com.example.zbanner;
 
+
+import ohos.aafwk.ability.fraction.Fraction;
+import ohos.aafwk.ability.fraction.FractionAbility;
+import ohos.aafwk.ability.fraction.FractionManager;
+import ohos.aafwk.content.Intent;
+import ohos.agp.components.Text;
 import com.example.zbanner.slice.BannerFraction;
 import com.example.zbanner.slice.BannerFractionRound;
 import com.zhuang.zbanner.Indicator;
 import com.zhuang.zbanner.ZBanner;
 import com.zhuang.zbanner.ZBannerAdapter;
 import com.zhuang.zbanner.util.LogUtil;
-import ohos.aafwk.ability.fraction.Fraction;
-import ohos.aafwk.ability.fraction.FractionAbility;
-import ohos.aafwk.ability.fraction.FractionManager;
-import ohos.aafwk.content.Intent;
-import ohos.agp.components.Text;
-
 import java.util.List;
 
+
+/**
+ * BannerAbility .
+ */
 public class BannerAbility extends FractionAbility {
 
 
-    int[] imgResId = {
-            ResourceTable.Media_jackson,
-            ResourceTable.Media_jordan,
-            ResourceTable.Media_kobe,
-            ResourceTable.Media_stephen,
-            ResourceTable.Media_android
-    };
-    String[] name = {
-            "jackson",
-            "jordan",
-            "kobe",
-            "stephen",
-            "android",
-    };
-    ZBanner zBanner;
+    int[] imgResId =
+            {ResourceTable.Media_jordan,
+                ResourceTable.Media_jackson,
+                ResourceTable.Media_kobe,
+                ResourceTable.Media_stephen,
+                ResourceTable.Media_android
+            };
+    String[] name =
+            {"jackson",
+                "jordan",
+                "kobe",
+                "stephen",
+                "android",
+        };
+
+    ZBanner zbanner;
 
 
     @Override
@@ -42,30 +47,30 @@ public class BannerAbility extends FractionAbility {
         List<ItemsSources.ExampleItem> list = ItemsSources.getItems();
         int layoutId = list.get(position).layoutId;
 
-        LogUtil.info("check2",""+position);
+        LogUtil.info("check2", "" + position);
 
         super.setUIContent(layoutId);
 
-        zBanner = (ZBanner) findComponentById(ResourceTable.Id_zBanner);
+        zbanner = (ZBanner) findComponentById(ResourceTable.Id_zBanner);
         if (layoutId == ResourceTable.Layout_ability_banner_widthfactor) {
-            zBanner.setAdapter(new MyBannerAdapter1(getFractionManager()));
+            zbanner.setAdapter(new MyBannerAdapter1(getFractionManager()));
         } else {
-            zBanner.setAdapter(new MyBannerAdapter(getFractionManager()));
+            zbanner.setAdapter(new MyBannerAdapter(getFractionManager()));
         }
         ZBanner.ZBannerPageTransformer transformer = list.get(position).transformer;
 
         if (transformer != null) {
-            zBanner.setPageTransformer(transformer);
+            zbanner.setPageTransformer(transformer);
         }
 
         if (findComponentById(ResourceTable.Id_indicator) != null) {
             Indicator indicator = (Indicator) findComponentById(ResourceTable.Id_indicator);
-            zBanner.setIndicator(indicator);
+            zbanner.setIndicator(indicator);
         }
 
         if (findComponentById(ResourceTable.Id_title) != null) {
             final Text title = (Text) findComponentById(ResourceTable.Id_title);
-            zBanner.setOnPageChangeLister(new ZBanner.OnPageChangeLister() {
+            zbanner.setOnPageChangeLister(new ZBanner.OnPageChangeLister() {
                 @Override
                 public void change(int position) {
                     title.setText(position + ".  " + name[position]);
@@ -78,13 +83,13 @@ public class BannerAbility extends FractionAbility {
     @Override
     protected void onForeground(Intent intent) {
         super.onForeground(intent);
-        zBanner.star();
+        zbanner.star();
     }
 
     @Override
     protected void onBackground() {
         super.onBackground();
-        zBanner.stop();
+        zbanner.stop();
     }
 
     private class MyBannerAdapter extends ZBannerAdapter {

@@ -1,26 +1,42 @@
 package com.example.zbanner.slice;
 
-import com.example.zbanner.ResourceTable;
-import com.example.zbanner.Util;
+
 import ohos.aafwk.ability.fraction.Fraction;
 import ohos.aafwk.content.Intent;
 import ohos.agp.components.Component;
 import ohos.agp.components.ComponentContainer;
 import ohos.agp.components.Image;
 import ohos.agp.components.LayoutScatter;
+import com.example.zbanner.ResourceTable;
+import com.example.zbanner.Util;
 
+/**
+ *  BannerFractionRound .
+ */
 public class BannerFractionRound extends Fraction {
 
     private int resId;
     private int position;
 
+
+    /**
+     * constructor of BannerFractionRound fraction .
+     */
     public BannerFractionRound() {
+
     }
 
+    /**
+     *  newInstance .
+     *
+     * @param resId getting id of each banenr
+     * @param position .
+     * @return .
+     */
     public static BannerFractionRound newInstance(int resId, int position) {
-        BannerFractionRound fraction = new BannerFractionRound();
-        fraction.setArguments(resId, position);
-        return fraction;
+        BannerFractionRound fragment = new BannerFractionRound();
+        fragment.setArguments(resId, position);
+        return fragment;
     }
 
     private void setArguments(int resId, int position) {

@@ -1,15 +1,13 @@
 package com.zhuang.zbanner.PageTransformer;
 
-
-
-import com.zhuang.zbanner.ZBanner;
 import ohos.agp.components.Component;
-
+import com.zhuang.zbanner.ZBanner;
 /**
  * Created by dkzwm on 2017/3/2.
  *
  * @author dkzwm
  */
+
 public class DrawerTransformer implements ZBanner.ZBannerPageTransformer {
 
     @Override

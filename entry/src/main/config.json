@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.zhuang.zbanner",
+    "bundleName": "com.example.zbanner",
     "vendor": "example",
     "version": {
       "code": 1000000,
@@ -10,7 +10,7 @@
   "deviceConfig": {},
   "module": {
     "package": "com.example.zbanner",
-    "name": ".MyApplication",
+    "name": ".ZBanner",
     "mainAbility": "com.example.zbanner.MainAbility",
     "deviceType": [
       "phone","tablet",

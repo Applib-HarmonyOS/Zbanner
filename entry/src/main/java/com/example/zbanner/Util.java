@@ -12,8 +12,23 @@ import ohos.agp.utils.TextAlignment;
 import ohos.agp.window.dialog.ToastDialog;
 import ohos.app.Context;
 
-public class Util {
+/**
+ *  Util class .
+ */
+public final class Util {
 
+    /**
+     * constructor of this class .
+     */
+    private Util() {}
+
+    /**
+     * createToast .
+     *
+     * @param context of the apllication
+     * @param str .
+     * @return .
+     */
     public static ToastDialog createToast(Context context, String str) {
         Text text = new Text(context);
         text.setWidth(ComponentContainer.LayoutConfig.MATCH_PARENT);
@@ -26,8 +41,9 @@ public class Util {
         text.setBackground(shapeElement);
         DirectionalLayout directionalLayout = new DirectionalLayout(context);
         directionalLayout.setBackground(shapeElement);
-        DirectionalLayout.LayoutConfig layoutConfig = new DirectionalLayout.LayoutConfig
-                (DirectionalLayout.LayoutConfig.MATCH_PARENT, DirectionalLayout.LayoutConfig.MATCH_CONTENT);
+        DirectionalLayout.LayoutConfig layoutConfig = new DirectionalLayout.LayoutConfig(
+                DirectionalLayout.LayoutConfig.MATCH_PARENT, DirectionalLayout.LayoutConfig.MATCH_CONTENT
+        );
         layoutConfig.setMarginBottom(100);
         directionalLayout.setLayoutConfig(layoutConfig);
         directionalLayout.setPadding(20, 30, 20, 30);
@@ -38,6 +54,12 @@ public class Util {
         return toastDialog;
     }
 
+    /**
+     *  buildDrawableByColor .
+     *
+     * @param color of Element .
+     * @return .
+     */
     public static Element buildDrawableByColor(int color) {
         ShapeElement drawable = new ShapeElement();
         drawable.setShape(ShapeElement.RECTANGLE);

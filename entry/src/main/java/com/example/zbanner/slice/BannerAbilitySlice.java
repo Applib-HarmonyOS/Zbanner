@@ -1,9 +1,12 @@
 package com.example.zbanner.slice;
 
-import com.example.zbanner.ResourceTable;
 import ohos.aafwk.ability.AbilitySlice;
 import ohos.aafwk.content.Intent;
+import com.example.zbanner.ResourceTable;
 
+/**
+ * BannerAbilitySlice.
+ */
 public class BannerAbilitySlice extends AbilitySlice {
     @Override
     public void onStart(Intent intent) {

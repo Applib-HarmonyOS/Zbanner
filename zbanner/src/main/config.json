@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.example.first_app",
+    "bundleName": "com.example.zbanner",
     "vendor": "example",
     "version": {
       "code": 1000000,

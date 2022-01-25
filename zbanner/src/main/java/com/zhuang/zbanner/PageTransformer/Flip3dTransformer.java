@@ -1,12 +1,14 @@
 package com.zhuang.zbanner.PageTransformer;
 
-
-
-import com.zhuang.zbanner.ZBanner;
 import ohos.agp.components.Component;
 import ohos.agp.render.ThreeDimView;
+import com.zhuang.zbanner.ZBanner;
 
-public class Flip3DTransformer extends ThreeDimView implements ZBanner.ZBannerPageTransformer {
+
+/**
+ * Flip3DTransformer style .
+ */
+public class Flip3dTransformer extends ThreeDimView implements ZBanner.ZBannerPageTransformer {
 
     @Override
     public void transformPage(Component page, float position) {

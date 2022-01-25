@@ -1,10 +1,7 @@
 package com.zhuang.zbanner.PageTransformer;
 
-
-
-import com.zhuang.zbanner.ZBanner;
 import ohos.agp.components.Component;
-
+import com.zhuang.zbanner.ZBanner;
 /**
  * Created by zhuang on 2017/12/19.
  */
@@ -12,24 +9,31 @@ import ohos.agp.components.Component;
 public class DepthPageTransformer implements ZBanner.ZBannerPageTransformer {
     private static final float MIN_SCALE = 0.75f;
 
-    public void transformPage(Component view, float position) {
-        int pageWidth = view.getWidth();
+    /** TransformPage .
+     *
+     * @param component of transformPage
+     * @param position 正在切换的页面相对于当前显示在正中间的页面的位置 .
+     *                 0表示当前页，1表示右侧一页，-1表示左侧一页 。
+     *                 注意，这几个都是临界值，position在页面切换过程中会一直改变 .
+     */
+    public void transformPage(Component component, float position) {
+        int pageWidth = component.getWidth();
 
         if (position < -1) { // [-Infinity,-1)
-            view.setAlpha(0);
-        } else if (position>=-1 && position <= 0) { // [-1,0]
-            view.setAlpha(1);
-            view.setTranslationX(0);
-            view.setScaleX(1);
-            view.setScaleY(1);
+            component.setAlpha(0);
+        } else if (position >= -1 && position <= 0) { // [-1,0]
+            component.setAlpha(1);
+            component.setTranslationX(0);
+            component.setScaleX(1);
+            component.setScaleY(1);
         } else if (position <= 1) { // (0,1]
-            view.setAlpha(1 - position);
-            view.setTranslationX(pageWidth * -position);
+            component.setAlpha(1 - position);
+            component.setTranslationX(pageWidth * -position);
             float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
-            view.setScaleX(scaleFactor);
-            view.setScaleY(scaleFactor);
+            component.setScaleX(scaleFactor);
+            component.setScaleY(scaleFactor);
         } else { // (1,+Infinity]
-            view.setAlpha(0);
+            component.setAlpha(0);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.zbanner.util;
+package com.zhuang.zbanner.util;
 
 import ohos.agp.components.element.PixelMapElement;
 import ohos.app.Context;

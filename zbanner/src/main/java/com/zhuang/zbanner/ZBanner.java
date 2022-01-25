@@ -1,7 +1,6 @@
 package com.zhuang.zbanner;
 
 import com.example.zbanner.ResourceTable;
-import com.example.zbanner.util.ResUtil;
 import ohos.agp.components.AttrHelper;
 import ohos.agp.components.AttrSet;
 import ohos.agp.components.Component;

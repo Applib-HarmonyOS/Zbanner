@@ -1,10 +1,7 @@
 package com.zhuang.zbanner.PageTransformer;
 
-
-
-import com.zhuang.zbanner.ZBanner;
 import ohos.agp.components.Component;
-
+import com.zhuang.zbanner.ZBanner;
 /**
  * Created by zhuang on 2017/12/20.
  */

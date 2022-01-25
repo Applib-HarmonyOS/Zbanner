@@ -1,12 +1,11 @@
 package com.zhuang.zbanner;
+
 import ohos.agp.components.AttrSet;
 import ohos.agp.components.Component;
+import ohos.agp.components.Component.EstimateSizeListener;
 import ohos.agp.components.element.Element;
 import ohos.agp.render.Canvas;
-
 import ohos.app.Context;
-import ohos.agp.components.Component.EstimateSizeListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +19,17 @@ public class Indicator extends Component implements EstimateSizeListener, Compon
     private int mOldPosition;
     private int mCount;
 
-    private Element mIndicatorSelectIcon;//指示器被选中时的图标
-    private Element mIndicatorUnSelectIcon;//指示器未被选中时的图标
-    private int mIndicatorIconSize;//指示器的图标大小
-    private int mIndicatorGap;//指示器图标之间的间隔
+    private Element mIndicatorSelectIcon; //指示器被选中时的图标
+    private Element mIndicatorUnSelectIcon; //指示器未被选中时的图标
+    private int mIndicatorIconSize; //指示器的图标大小
+    private int mIndicatorGap; //指示器图标之间的间隔
 
+    /**
+     *  Indicator .
+     *
+     * @param context fdfd
+     * @param builder .
+     */
     public Indicator(Context context, Builder builder) {
         super(context);
         mIndicatorSelectIcon = builder.indicatorSelectIcon;
@@ -38,11 +43,11 @@ public class Indicator extends Component implements EstimateSizeListener, Compon
     }
 
     public Indicator(Context context,  AttrSet attrs) {
-        super(context,attrs);
+        super(context, attrs);
     }
 
     public Indicator(Context context, AttrSet attrs, int defStyleAttr) {
-        super(context,attrs,defStyleAttr);
+        super(context, attrs, defStyleAttr);
     }
 
     @Override
@@ -52,11 +57,15 @@ public class Indicator extends Component implements EstimateSizeListener, Compon
 
 
         setEstimatedSize(
-                ohos.agp.components.Component.EstimateSpec.getSizeWithMode( width, ohos.agp.components.Component.EstimateSpec.NOT_EXCEED),
-                ohos.agp.components.Component.EstimateSpec.getSizeWithMode( height, ohos.agp.components.Component.EstimateSpec.NOT_EXCEED)
+                ohos.agp.components.Component.EstimateSpec.getSizeWithMode(
+                        width, ohos.agp.components.Component.EstimateSpec.NOT_EXCEED
+                ),
+                ohos.agp.components.Component.EstimateSpec.getSizeWithMode(
+                        height, ohos.agp.components.Component.EstimateSpec.NOT_EXCEED
+                )
         );
 
-//        setMeasuredDimension(width, height);
+        //        setMeasuredDimension(width, height);
         return  true;
     }
 
@@ -75,6 +84,7 @@ public class Indicator extends Component implements EstimateSizeListener, Compon
             left += mIndicatorIconSize + mIndicatorGap;
         }
     }
+
     public void setCount(int count) {
         this.mCount = count;
         mOldPosition = 0;
@@ -90,9 +100,21 @@ public class Indicator extends Component implements EstimateSizeListener, Compon
         postLayout();
     }
 
+    /**
+     * setSelectPosition .
+     *
+     * @param position .
+     */
+
     public void setSelectPosition(int position) {
-        if (mOldPosition == position) return;
-        if (mItems.size() == 0) return;
+        if (mOldPosition == position) {
+            return;
+        }
+
+        if (mItems.size() == 0) {
+            return;
+        }
+
         mItems.get(position).isSelect = true;
         mItems.get(mOldPosition).isSelect = false;
         mOldPosition = position;
@@ -106,6 +128,10 @@ public class Indicator extends Component implements EstimateSizeListener, Compon
         boolean isSelect;
     }
 
+    /**
+     * setBuilder .
+     * @param builder .
+     */
     public void setBuilder(Builder builder) {
         mIndicatorSelectIcon = builder.indicatorSelectIcon;
         mIndicatorUnSelectIcon = builder.indicatorUnSelectIcon;
@@ -114,11 +140,14 @@ public class Indicator extends Component implements EstimateSizeListener, Compon
         invalidate();
     }
 
+    /**
+     * Builder .
+     */
     public static class Builder {
-        Element indicatorSelectIcon;//指示器被选中时的图标
-        Element indicatorUnSelectIcon;//指示器未被选中时的图标
-        int indicatorIconSize;//指示器的图标大小
-        int mIndicatorGap;//指示器图标之间的间隔
+        Element indicatorSelectIcon; //指示器被选中时的图标
+        Element indicatorUnSelectIcon; //指示器未被选中时的图标
+        int indicatorIconSize; //指示器的图标大小
+        int mIndicatorGap; //指示器图标之间的间隔
 
         public Indicator build(Context context) {
             Indicator indicator = new Indicator(context, this);

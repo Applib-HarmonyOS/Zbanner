@@ -36,7 +36,7 @@ public class LogUtil {
     }
 
     /**
-     * Print debug log
+     * Print debug log .
      *
      * @param tag log tag
      * @param msg log message
@@ -46,7 +46,7 @@ public class LogUtil {
     }
 
     /**
-     * Print info log
+     * Print info  .
      *
      * @param tag log tag
      * @param msg log message
@@ -56,7 +56,7 @@ public class LogUtil {
     }
 
     /**
-     * Print warn log
+     * Print warn log .
      *
      * @param tag log tag
      * @param msg log message
@@ -66,7 +66,7 @@ public class LogUtil {
     }
 
     /**
-     * Print error log
+     * Print error log .
      *
      * @param tag log tag
      * @param msg log message

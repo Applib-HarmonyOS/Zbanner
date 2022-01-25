@@ -17,13 +17,13 @@ import java.util.Optional;
 
 public abstract class ZBannerAdapter {
 
-    private final FractionManager mFractionManager;
+    private final FractionManager mFragmentManager;
     private FractionScheduler mCurTransaction = null;
-    private DataObserver mDataObserver;
+    private DataObserver mViewPagerObserver;
     private final DataObservable mObservable = new DataObservable();
 
     public ZBannerAdapter(FractionManager fm) {
-        mFractionManager = fm;
+        mFragmentManager = fm;
     }
 
     public abstract Fraction getItem(int position);
@@ -32,40 +32,40 @@ public abstract class ZBannerAdapter {
 
     public Optional<Fraction> instantiateItem(ComponentContainer container, int position) {
         if (mCurTransaction == null) {
-            mCurTransaction = mFractionManager.startFractionScheduler();
+            mCurTransaction = mFragmentManager.startFractionScheduler();
         }
 
         final long itemId = getItemId(position);
-        // Do we already have this fraction?
-        String name = makeFractionName(container.getId(), itemId);
-        Optional<Fraction> fraction = mFractionManager.getFractionByTag(name);
-        if (fraction.isPresent()) {
-            mCurTransaction.show(fraction.get());  // check once
+        // Do we already have this fragment?
+        String name = makeFragmentName(container.getId(), itemId);
+        Optional<Fraction> fragment = mFragmentManager.getFractionByTag(name);
+        if (fragment.isPresent()) {
+            mCurTransaction.show(fragment.get());  // check once
         } else {
-            fraction = Optional.ofNullable(getItem(position));
-            mCurTransaction.add(container.getId(), fraction.get(),
-                    makeFractionName(container.getId(), itemId));
+            fragment = Optional.ofNullable(getItem(position));
+            mCurTransaction.add(container.getId(), fragment.get(),
+                    makeFragmentName(container.getId(), itemId));
         }
-        return fraction;
+        return fragment;
     }
 
-    public boolean isViewFromObject(Component view, Fraction fraction) {
-        return fraction.getComponent() == view;
+    public boolean isViewFromObject(Component view, Fraction fragment) {
+        return fragment.getComponent() == view;
     }
 
-    public void destroyItem(Optional<Fraction> fraction) {
+    public void destroyItem(Optional<Fraction> fragment) {
         if (mCurTransaction == null) {
-            mCurTransaction = mFractionManager.startFractionScheduler();
+            mCurTransaction = mFragmentManager.startFractionScheduler();
         }
-        mCurTransaction.remove(fraction.get());
+        mCurTransaction.remove(fragment.get());
     }
 
     public long getItemId(int position) {
         return position;
     }
 
-    private String makeFractionName(int ComponentId, long id) {
-        return "harmony:switcher:" + ComponentId + ":" + id;
+    private String makeFragmentName(int viewId, long id) {
+        return "harmony:switcher:" + viewId + ":" + id;
     }
 
     public void finishUpdate() {
@@ -77,8 +77,8 @@ public abstract class ZBannerAdapter {
 
     public void notifyDataSetChanged() {
         synchronized (this) {
-            if (mDataObserver != null) {
-                mDataObserver.onChange();
+            if (mViewPagerObserver != null) {
+                mViewPagerObserver.onChange();
             }
         }
         mObservable.notifyObservers();
@@ -86,7 +86,7 @@ public abstract class ZBannerAdapter {
 
     void setViewPagerObserver(DataObserver observer) {
         synchronized (this) {
-            mDataObserver = observer ;
+            mViewPagerObserver = observer ;
         }
     }
 

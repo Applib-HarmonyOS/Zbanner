@@ -1,10 +1,12 @@
 package com.zhuang.zbanner.PageTransformer;
 
-
-
-import com.zhuang.zbanner.ZBanner;
 import ohos.agp.components.Component;
+import com.zhuang.zbanner.ZBanner;
 
+
+/**
+ * AccordionTransformer style ZBanner .
+ */
 public class AccordionTransformer1 implements ZBanner.ZBannerPageTransformer {
 
     @Override

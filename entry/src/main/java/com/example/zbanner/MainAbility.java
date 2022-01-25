@@ -1,13 +1,21 @@
 package com.example.zbanner;
 
-import com.zhuang.zbanner.util.LogUtil;
+
 import ohos.aafwk.ability.Ability;
 import ohos.aafwk.content.Intent;
 import ohos.aafwk.content.Operation;
-import ohos.agp.components.*;
-
+import ohos.agp.components.BaseItemProvider;
+import ohos.agp.components.Component;
+import ohos.agp.components.ComponentContainer;
+import ohos.agp.components.LayoutScatter;
+import ohos.agp.components.ListContainer;
+import ohos.agp.components.Text;
+import com.zhuang.zbanner.util.LogUtil;
 import java.util.List;
 
+/**
+ *  MainAbility.
+ */
 public class MainAbility extends Ability implements ListContainer.ItemClickedListener {
     @Override
     public void onStart(Intent intent) {
@@ -60,11 +68,12 @@ public class MainAbility extends Ability implements ListContainer.ItemClickedLis
         public Component getComponent(int position, Component component, ComponentContainer componentContainer) {
             Component convertView = component;
             if (convertView == null) {
-                convertView = LayoutScatter.getInstance(getContext()).parse
-                        (ResourceTable.Layout_simple_list_item_1, componentContainer, false);
+                convertView = LayoutScatter.getInstance(getContext()).parse(ResourceTable.Layout_simple_list_item_1,
+                        componentContainer, false);
             }
-            ((Text) (convertView.findComponentById(ResourceTable.Id_list_component))).setText
-                    ((String) getItem(position));
+            ((Text) (convertView.findComponentById(ResourceTable.Id_list_component))).setText(
+                    (String) getItem(position)
+            );
             convertView.setClickable(false);
             return convertView;
         }
@@ -77,7 +86,7 @@ public class MainAbility extends Ability implements ListContainer.ItemClickedLis
                 .withAction("action.banner")
                 .build();
 
-        LogUtil.info("check",i+"");
+        LogUtil.info("check", i + "");
 
         intent.setParam("position", i);
         intent.setOperation(operation);
