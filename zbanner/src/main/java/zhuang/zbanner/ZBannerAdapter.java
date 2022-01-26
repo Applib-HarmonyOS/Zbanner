@@ -22,7 +22,7 @@ public abstract class ZBannerAdapter {
     private DataObserver mViewPagerObserver;
     private final DataObservable mObservable = new DataObservable();
 
-    public ZBannerAdapter(FractionManager fm) {
+    protected ZBannerAdapter(FractionManager fm) {
         mFragmentManager = fm;
     }
 

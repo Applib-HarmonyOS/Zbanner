@@ -44,7 +44,7 @@ public class ZBanner extends StackLayout {
     private int indicatorMargin = 5;//dp
     private int mIndicatorGap = 5;//指示器图标之间的间隔
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
-    private OnPageChangeLister mOnPageChangeLister;
+    public OnPageChangeLister mOnPageChangeLister;
 
     public ZBanner(Context context) {
         super(context);
@@ -63,17 +63,16 @@ public class ZBanner extends StackLayout {
 
     void initView(AttrSet attrs, int defStyle, Context context) {
 
-        mPageGap = attrs.getAttr("ZBanner_pageGap").isPresent() ? attrs.getAttr("pageGap").get().getIntegerValue(): mPageGap;  // getDimensionPixelSize(R.styleable.ZBanner_pageGap, mPageGap);
-        mWidthFactor = attrs.getAttr("ZBanner_widthFactor").isPresent() ? attrs.getAttr("ZBanner_widthFactor").get().getFloatValue() : mWidthFactor; //getFloat(R.styleable.ZBanner_widthFactor, mWidthFactor);
-        mOffscreenPageLimit = attrs.getAttr("ZBanner_offscreenPageLimit").isPresent() ? attrs.getAttr("ZBanner_offscreenPageLimit").get().getIntegerValue() : mOffscreenPageLimit; // getInt(R.styleable.ZBanner_offscreenPageLimit, mOffscreenPageLimit);
-        indicatorSelectIcon = attrs.getAttr("ZBanner_indicatorSelectIcon").isPresent() ? attrs.getAttr("ZBanner_indicatorSelectIcon").get().getElement() : null; // getDrawable(R.styleable.ZBanner_indicatorSelectIcon);
-        indicatorUnSelectIcon = attrs.getAttr("ZBanner_indicatorUnSelectIcon").isPresent() ? attrs.getAttr("ZBanner_indicatorUnSelectIcon").get().getElement() : null; // .getDrawable(R.styleable.ZBanner_indicatorUnSelectIcon);
-        indicatorGravity =attrs.getAttr("ZBanner_indicatorGravity").isPresent() ?  attrs.getAttr("ZBanner_indicatorGravity").get().getIntegerValue() : indicatorGravity;// a.getInt(R.styleable., indicatorGravity);
-        indicatorIconSize = attrs.getAttr("ZBanner_indicatorIconSize").isPresent() ? attrs.getAttr("ZBanner_indicatorIconSize").get().getDimensionValue() : AttrHelper.vp2px(indicatorIconSize, context) ; // a.getDimensionPixelSize(R.styleable.ZBanner_indicatorIconSize, dpToPx(indicatorIconSize));
-        showIndicator = attrs.getAttr("ZBanner_showIndicator").isPresent() ? attrs.getAttr("ZBanner_showIndicator").get().getBoolValue() : showIndicator; //a.getBoolean(R.styleable.ZBanner_showIndicator, showIndicator);
-        indicatorMargin = attrs.getAttr("ZBanner_indicatorMargin").isPresent() ? attrs.getAttr("ZBanner_indicatorMargin").get().getDimensionValue() : AttrHelper.vp2px(indicatorMargin,context); //dpToPx(indicatorMargin); // a.getDimensionPixelSize(R.styleable.ZBanner_indicatorMargin, dpToPx(indicatorMargin));
-        mIndicatorGap =attrs.getAttr("ZBanner_indicatorGap").isPresent() ? attrs.getAttr("ZBanner_indicatorGap").get().getDimensionValue() : AttrHelper.vp2px(mIndicatorGap, context) ;//dpToPx(mIndicatorGap) ;// a.getDimensionPixelSize(R.styleable.ZBanner_indicatorGap, dpToPx(mIndicatorGap));
-
+        mPageGap = attrs.getAttr("ZBanner_pageGap").isPresent() ? attrs.getAttr("pageGap").get().getIntegerValue(): mPageGap;
+        mWidthFactor = attrs.getAttr("ZBanner_widthFactor").isPresent() ? attrs.getAttr("ZBanner_widthFactor").get().getFloatValue() : mWidthFactor;
+        mOffscreenPageLimit = attrs.getAttr("ZBanner_offscreenPageLimit").isPresent() ? attrs.getAttr("ZBanner_offscreenPageLimit").get().getIntegerValue() : mOffscreenPageLimit;
+        indicatorSelectIcon = attrs.getAttr("ZBanner_indicatorSelectIcon").isPresent() ? attrs.getAttr("ZBanner_indicatorSelectIcon").get().getElement() : null;
+        indicatorUnSelectIcon = attrs.getAttr("ZBanner_indicatorUnSelectIcon").isPresent() ? attrs.getAttr("ZBanner_indicatorUnSelectIcon").get().getElement() : null;
+        indicatorGravity =attrs.getAttr("ZBanner_indicatorGravity").isPresent() ?  attrs.getAttr("ZBanner_indicatorGravity").get().getIntegerValue() : indicatorGravity;
+        indicatorIconSize = attrs.getAttr("ZBanner_indicatorIconSize").isPresent() ? attrs.getAttr("ZBanner_indicatorIconSize").get().getDimensionValue() : AttrHelper.vp2px(indicatorIconSize, context) ;
+        showIndicator = attrs.getAttr("ZBanner_showIndicator").isPresent() ? attrs.getAttr("ZBanner_showIndicator").get().getBoolValue() : showIndicator;
+        indicatorMargin = attrs.getAttr("ZBanner_indicatorMargin").isPresent() ? attrs.getAttr("ZBanner_indicatorMargin").get().getDimensionValue() : AttrHelper.vp2px(indicatorMargin,context);
+        mIndicatorGap =attrs.getAttr("ZBanner_indicatorGap").isPresent() ? attrs.getAttr("ZBanner_indicatorGap").get().getDimensionValue() : AttrHelper.vp2px(mIndicatorGap, context) ;
         if (mWidthFactor < 0.5f || mWidthFactor > 1f) {
             throw new RuntimeException("mWidthFactor的区间只能是[0.5f,1f]");
         }
@@ -81,11 +80,9 @@ public class ZBanner extends StackLayout {
             throw new RuntimeException("mOffscreenPageLimit必须>=1");
         }
         if (indicatorSelectIcon == null) {
-            //indicatorSelectIcon = ResUtil.getPixelMapDrawable(context  , ResourceTable.Layout_ic_indicator_select);
             indicatorSelectIcon = new VectorElement(context  , ResourceTable.Graphic_ic_indicator_select);
         }
         if (indicatorUnSelectIcon == null) {
-            //indicatorUnSelectIcon = ResUtil.getPixelMapDrawable(context, ResourceTable.Graphic_ic_indicator_unselect);
             indicatorUnSelectIcon = new VectorElement(context  , ResourceTable.Graphic_ic_indicator_unselect);
         }
 

@@ -8,6 +8,7 @@ import ohos.eventhandler.EventHandler;
 import ohos.eventhandler.EventRunner;
 import ohos.eventhandler.InnerEvent;
 import ohos.multimodalinput.event.TouchEvent;
+import zhuang.zbanner.util.LogUtil;
 
 import java.util.*;
 import java.util.logging.Handler;
@@ -25,7 +26,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 
     private ViewDragHelper mDragger;
     private ViewDragHelperCallback mCallback;
-    private final ArrayList<ItemInfo> mItems = new ArrayList();
+    private final ArrayList<ItemInfo> mItems = new ArrayList<>();
     private ZBannerAdapter mAdapter;
     private int mCurPosition;//当前页位置
     private boolean mFirstLayout = true;
@@ -52,7 +53,6 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     private int mDrawingOrder;
     private static final ViewPositionComparator sPositionComparator = new ViewPositionComparator();
     private ArrayList<Component> mDrawingOrderedChildren;
-    //static final int[] LAYOUT_ATTRS = new int[]{android.R.attr.layout_gravity};
 
     private Timer mTimer;
     private long mRecentTouchTime;
@@ -108,7 +108,16 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
             }
             mAdapter.setViewPagerObserver(mObserver);
         }
-        mAdapter.notifyDataSetChanged();
+
+        /**
+         *         try {
+         *             mAdapter.notifyDataSetChanged();
+         *         }
+         *         catch (Exception e)
+         *         {
+         *             LogUtil.error('error',e+"");
+         *         }
+         */
     }
 
     private void dataSetChanged() {
