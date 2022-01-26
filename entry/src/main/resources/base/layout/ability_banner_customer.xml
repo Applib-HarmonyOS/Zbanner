@@ -11,7 +11,7 @@
     ohos:height="match_parent"
     ohos:width="200fp" >
 
-<com.zhuang.zbanner.ZBanner
+<zhuang.zbanner.ZBanner
         ohos:id="$+id:zBanner"
         ohos:width="match_parent"
         ohos:height="match_parent"
@@ -34,7 +34,7 @@
         ohos:text_size="18fp"
         ohos:text_color="#FFFFFF"/>
 
-    <com.zhuang.zbanner.Indicator
+    <zhuang.zbanner.Indicator
         ohos:id="$+id:indicator"
         ohos:right_margin="10fp"
         ohos:width="match_content"

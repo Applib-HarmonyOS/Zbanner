@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<com.zhuang.zbanner.ZBanner
+<zhuang.zbanner.ZBanner
     xmlns:custom="http://schemas.huawei.com/res/custom"
     xmlns:ohos="http://schemas.huawei.com/res/ohos"
     ohos:id="$+id:zBanner"

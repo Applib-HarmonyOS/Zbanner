@@ -23,6 +23,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/entry/src/main/java/com/applib/zbanner/BannerAbility.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/entry/src/main/java/com/applib/zbanner/MainAbility.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/entry/src/main/java/com/example/zbanner/BannerAbility.java">
           <value>
             <set />
@@ -63,6 +73,31 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/entry/src/main/resources/base/layout/ability_banner_classic.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/entry/src/main/resources/base/layout/ability_banner_customer.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/entry/src/main/resources/base/layout/ability_banner_indicator.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/entry/src/main/resources/base/layout/ability_banner_transformer.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/entry/src/main/resources/base/layout/ability_banner_widthfactor.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/entry/src/test/java/com/example/zbanner/ExampleTest.java">
           <value>
             <set />
@@ -79,6 +114,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/zbanner/src/main/java/com/zhuang/zbanner/Indicator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/com/zhuang/zbanner/ItemInfo.java">
           <value>
             <set />
           </value>
@@ -143,7 +183,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/com/zhuang/zbanner/ViewDragHelper.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/zbanner/src/main/java/com/zhuang/zbanner/ZBanner.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/com/zhuang/zbanner/ZBannerRaw.java">
           <value>
             <set />
           </value>
@@ -158,7 +208,97 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/Indicator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/ItemInfo.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/AccordionTransformer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/AccordionTransformer1.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/DepthPageTransformer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/DrawerTransformer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/Flip3dTransformer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/FlipHorizontalTransformer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/RotateDownTransformer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/StackTransformer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/PageTransformer/ZoomOutTransformer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/ViewDragHelper.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/ZBanner.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/ZBannerAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/ZBannerRaw.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/util/LogUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/main/java/zhuang/zbanner/util/ResUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/zbanner/src/main/resources/base/element/string.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/zbanner/src/test/java/com/example/zbanner/ExampleTest.java">
           <value>
             <set />
           </value>

@@ -11,7 +11,7 @@
   "module": {
     "package": "com.example.zbanner",
     "name": ".ZBanner",
-    "mainAbility": "com.example.zbanner.MainAbility",
+    "mainAbility": "com.applib.zbanner.MainAbility",
     "deviceType": [
       "phone","tablet",
       "tv"
@@ -35,7 +35,7 @@
           }
         ],
         "orientation": "unspecified",
-        "name": "com.example.zbanner.MainAbility",
+        "name": "com.applib.zbanner.MainAbility",
         "icon": "$media:icon",
         "description": "$string:mainability_description",
         "label": "$string:entry_MainAbility",
@@ -51,7 +51,7 @@
           }
         ],
         "orientation": "unspecified",
-        "name": "com.example.zbanner.BannerAbility",
+        "name": "com.applib.zbanner.BannerAbility",
         "icon": "$media:icon",
         "description": "$string:bannerability_description",
         "label": "$string:entry_BannerAbility",
