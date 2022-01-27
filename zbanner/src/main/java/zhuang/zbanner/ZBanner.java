@@ -73,11 +73,12 @@ public class ZBanner extends StackLayout {
         showIndicator = attrs.getAttr("ZBanner_showIndicator").isPresent() ? attrs.getAttr("ZBanner_showIndicator").get().getBoolValue() : showIndicator;
         indicatorMargin = attrs.getAttr("ZBanner_indicatorMargin").isPresent() ? attrs.getAttr("ZBanner_indicatorMargin").get().getDimensionValue() : AttrHelper.vp2px(indicatorMargin,context);
         mIndicatorGap =attrs.getAttr("ZBanner_indicatorGap").isPresent() ? attrs.getAttr("ZBanner_indicatorGap").get().getDimensionValue() : AttrHelper.vp2px(mIndicatorGap, context) ;
+
         if (mWidthFactor < 0.5f || mWidthFactor > 1f) {
-            throw new RuntimeException("mWidthFactor的区间只能是[0.5f,1f]");
+            throw new UnsupportedOperationException("mWidthFactor的区间只能是[0.5f,1f]");
         }
         if (mOffscreenPageLimit < 1) {
-            throw new RuntimeException("mOffscreenPageLimit必须>=1");
+            throw new UnsupportedOperationException("mOffscreenPageLimit必须>=1");
         }
         if (indicatorSelectIcon == null) {
             indicatorSelectIcon = new VectorElement(context  , ResourceTable.Graphic_ic_indicator_select);

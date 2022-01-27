@@ -8,11 +8,8 @@ import ohos.eventhandler.EventHandler;
 import ohos.eventhandler.EventRunner;
 import ohos.eventhandler.InnerEvent;
 import ohos.multimodalinput.event.TouchEvent;
-import zhuang.zbanner.util.LogUtil;
 
 import java.util.*;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Created by zhuang on 2017/11/23.
@@ -45,6 +42,9 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     int mCurPageLeft;//静止状态时，当前页的left位置
     int mNextPageLft;//静止状态时，右侧页面的left位置
     int mPrePageLeft;//静止状态时，左侧页面的left位置
+    ItemInfo ii;
+
+    int offset;
 
     private ZBanner.ZBannerPageTransformer mPageTransformer;
     private static final int DRAW_ORDER_DEFAULT = 0;
@@ -122,7 +122,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 
     private void dataSetChanged() {
         for (int i = 0; i < mItems.size(); i++) {
-            mAdapter.destroyItem(mItems.get(i).fragment);
+            mAdapter.destroyItem(mItems.get(i).fraction);
         }
         mAdapter.finishUpdate();
         mItems.clear();
@@ -204,7 +204,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         int curIndex = -1;
         ItemInfo curItem = null;
         for (curIndex = 0; curIndex < mItems.size(); curIndex++) {
-            final ItemInfo ii = mItems.get(curIndex);
+             ii = mItems.get(curIndex);
             if (ii.position == mCurPosition) {
                 curItem = ii;
                 break;
@@ -217,14 +217,14 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
             curItem.position = mCurPosition;
             curItem.prePosition = previPosi(curItem);
             curItem.nextPosition = nextPosi(curItem);
-            curItem.fragment = Optional.of(mAdapter.instantiateItem(this, mCurPosition).get());
+            curItem.fraction = Optional.of(mAdapter.instantiateItem(this, mCurPosition).get());
             curItem.left = curViewLeft;
             mItems.add(curIndex, curItem);
         } else {
             curItem.left = curViewLeft;
         }
 
-        if (curItem != null) {
+        if (curItem.isPre() != false) {
             int rightCount;//左侧总共有多少个页面
             int leftCount;//右侧总共有多少个页面
             //页面总数为双数
@@ -258,7 +258,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
             needRequestLayoutLeft = populateLeft(curItem, curIndex, leftCount, leftNum);
             needRequestLayoutRight = populateRight(curItem, curIndex, rightCount, rightNum);
         }
-        if (needRequestLayoutLeft || needRequestLayoutRight) {
+        if (needRequestLayoutLeft || !needRequestLayoutRight) {
             postLayout();
         }
 
@@ -272,20 +272,17 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         return (curItem.position == N - 1 ? 0 : curItem.position + 1 );
     }
 
-    int itemIndex;
-    ItemInfo ii;
-    boolean needRequestLayout = false;
-    int offset;
+
 
     private boolean populateRight(ItemInfo curItem, int curIndex, int rightCount, int rightNum) {
 
-        itemIndex = curIndex + 1;
+        int itemIndex = curIndex + 1;
         ii = itemIndex < mItems.size() ? mItems.get(itemIndex) : null;
-
+        boolean needRequestLayout = true;
         for (int i = 1; i <= rightNum; i++) {
              offset = i * (mPageWidth + mPageGap);
             if (ii != null) {
-                cognifunc(rightCount,curItem);
+                needRequestLayout = cognifunc(rightCount,curItem,needRequestLayout,itemIndex);
             // till
             }
             else {
@@ -298,7 +295,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                 rightii.prePosition =  previPosiryt(rightii);
                 rightii.nextPosition = nextPosiryt(rightii);
                 rightii.left = curItem.left + offset;
-                rightii.fragment = mAdapter.instantiateItem(this, rightii.position);
+                rightii.fraction = mAdapter.instantiateItem(this, rightii.position);
                 mItems.add(rightii);
 
             }
@@ -307,20 +304,22 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         return needRequestLayout;
     }
 
-    public void cognifunc(int rightCount,ItemInfo curItem ){
+    public boolean cognifunc(int rightCount,ItemInfo curItem, boolean needRequestLayout, int itemIndex ){
         if (rightCount <= 0) {
             mItems.remove(ii);
             if (N > 2 * mOffscreenPageLimit + 1) {
-                mAdapter.destroyItem(ii.fragment);
+                mAdapter.destroyItem(ii.fraction);
             } else {
-                needRequestLayout = true;
+                needRequestLayout = false;
             }
         } else {
             itemIndex++;
+
             ii.left = curItem.left + offset;
         }
         ii = gettingSize(mItems,itemIndex);
 
+        return  needRequestLayout;
     }
 
     public  ItemInfo gettingSize(ArrayList<ItemInfo> mItems, int itemIndex){
@@ -337,12 +336,14 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 
     private boolean populateLeft(ItemInfo curItem, int curIndex, int leftCount, int leftNum) {
         boolean needRequestLayout = false;
+
         int itemIndex = curIndex - 1;
-        ItemInfo ii = itemIndex >= 0 ? mItems.get(itemIndex) : null;
+
+        ii = itemIndex >= 0 ? mItems.get(itemIndex) : null;
         for (int i = 1; i <= leftNum; i++) {
-            int offset = i * (mPageWidth + mPageGap);
+            offset = i * (mPageWidth + mPageGap);
             if (ii != null) {
-                cognifunc2(leftCount,curItem);
+                needRequestLayout = cognifunc2(leftCount,curItem,needRequestLayout,itemIndex);
                 // till
             } else {
                 ItemInfo leftii = new ItemInfo();
@@ -354,7 +355,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                 leftii.prePosition = previPosiryt(leftii);
                 leftii.nextPosition = nextPosilft(leftii);
                 leftii.left = curItem.left - offset;
-                leftii.fragment = mAdapter.instantiateItem(this, leftii.position);
+                leftii.fraction = mAdapter.instantiateItem(this, leftii.position);
                 mItems.add(0, leftii);
             }
             leftCount--;
@@ -362,11 +363,12 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         return needRequestLayout;
     }
 
-    public void cognifunc2(int rightCount,ItemInfo curItem ){
-        if (rightCount <= 0) {
+    // to resolve cognitive comp I have used this func .
+    public boolean cognifunc2(int rightCount,ItemInfo curItem, boolean needRequestLayout,int itemIndex ){
+         if (rightCount <= 0) {
             mItems.remove(ii);
             if (N > 2 * mOffscreenPageLimit + 1) {
-                mAdapter.destroyItem(ii.fragment);
+                mAdapter.destroyItem(ii.fraction);
             } else {
                 needRequestLayout = true;
             }
@@ -375,7 +377,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         }
         itemIndex--;
         ii = gettingii(mItems,itemIndex);
-
+        return needRequestLayout ;
     }
 
     public  ItemInfo gettingii(ArrayList<ItemInfo> mItems, int itemIndex){
@@ -394,11 +396,11 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         int size = mItems.size();
         if (size == 0) {
             for (int i = 0; i < N; i++) {
-                ItemInfo ii = new ItemInfo();
+                ii = new ItemInfo();
                 ii.position = i;
                 ii.prePosition = Math.abs(i - 1);
                 ii.nextPosition = Math.abs(i - 1);
-                ii.fragment = mAdapter.instantiateItem(this, ii.position);
+                ii.fraction = mAdapter.instantiateItem(this, ii.position);
                 ii.left = i * (mWidth + mPageGap);
                 mItems.add(ii);
             }
@@ -409,8 +411,8 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 
     ItemInfo infoForChild(Component child) {
         for (int i = 0; i < mItems.size(); i++) {
-            ItemInfo ii = mItems.get(i);
-            if (mAdapter.isViewFromObject(child, ii.fragment.get())) {
+            ii = mItems.get(i);
+            if (mAdapter.isViewFromObject(child, ii.fraction.get())) {
                 return ii;
             }
         }
@@ -422,7 +424,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             Component childView = getComponentAt(i);
-            ItemInfo ii = infoForChild(childView);
+            ii = infoForChild(childView);
             childView.arrange(ii.left, 0,
                     ii.left + childView.getWidth(), childView.getHeight());
         }
@@ -446,8 +448,10 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                 //防止与父组件滑动事件冲突
                 ComponentParent parent = getComponentParent();
                 if (parent != null) {
-                    //TODO : API unavailbale
-                    //parent.requestDisallowInterceptTouchEvent(true);
+                    /**
+                     *                     //TODO : API unavailbale
+                     *                     //parent.requestDisallowInterceptTouchEvent(true);
+                     */
                 }
                 break;
             case TouchEvent.PRIMARY_POINT_UP:
@@ -517,7 +521,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 //setComponentPosition
                     if (anotherViewOldLeft * anotherView.getLeft() < 0) {
                         anotherViewOldLeft = anotherView.getLeft();
-                        ItemInfo ii = mItems.get(0);
+                        ii = mItems.get(0);
                         mItems.remove(0);
                         mItems.add(ii);
                         sortChildDrawingOrder();
@@ -530,8 +534,10 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
                     for (int i = 0; i < getChildCount(); i++) {
                         Component view = getComponentAt(i);
                         if (view != changedView) {
-//                          TODO API unavailable
-//                            ViewCompat.offsetLeftAndRight(view, dx);
+                            /**
+                             * //                          TODO API unavailable
+                             * //                            ViewCompat.offsetLeftAndRight(view, dx);
+                             */
                             view.setMarginLeft(dx);
                             view.setMarginRight(dx);
                         }
@@ -571,14 +577,14 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 
         private void setFirstAndLast() {
             firstItem = mItems.get(0);
-            firstView = firstItem.fragment.get().getComponent();
+            firstView = firstItem.fraction.get().getComponent();
             lastItem = mItems.get(mItems.size() - 1);
-            lastView = lastItem.fragment.get().getComponent();
+            lastView = lastItem.fraction.get().getComponent();
         }
 
         @Override
         public void onViewReleased(Component releasedChild, float xvel, float yvel) {
-            ItemInfo ii = infoForChild(releasedChild);
+            ii = infoForChild(releasedChild);
             if (ii == null) return;
             int left = releasedChild.getLeft();
             if (left < mCurPageLeft - mPageWidth / 2) {
@@ -655,7 +661,6 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         mCurPosition = position;
         Component view = getViewFromPosition(position);
         mDragger.smoothSlideViewTo(view, mCurPageLeft, 0);
-//        ViewCompat.postInvalidateOnAnimation(ZBannerRaw.this);
         invalidate();
         if (mIndicator != null) {
             mIndicator.setSelectPosition(mCurPosition);
@@ -675,7 +680,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
         final int size = mItems.size();
         for (int i = 0; i < size; i++) {
             if (mItems.get(i).position == position) {
-                return mItems.get(i).fragment.get().getComponent();
+                return mItems.get(i).fraction.get().getComponent();
             }
         }
         return null;
@@ -685,7 +690,6 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     public void onContentScrolled(Component component, int i, int i1, int i2, int i3) {
         if (mDragger.continueSettling(true)) {
             invalidate();
-//            ViewCompat.postInvalidateOnAnimation(ZBannerRaw.this);
         }
     }
 
@@ -701,8 +705,10 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     public void setPageTransformer(boolean reverseDrawingOrder, ZBanner.ZBannerPageTransformer pageTransformer) {
         mDrawingOrder = reverseDrawingOrder ? DRAW_ORDER_REVERSE : DRAW_ORDER_FORWARD;
 
-        //TODO: setChildrenDrawingOrderEnabled API unavailable
-        // setChildrenDrawingOrderEnabled(true);
+        /**
+         *         //TODO: setChildrenDrawingOrderEnabled API unavailable
+         *         // setChildrenDrawingOrderEnabled(true);
+         */
 
         this.mPageTransformer = pageTransformer;
     }
@@ -712,9 +718,11 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     @Override
     public void addComponent(Component child) {
         super.addComponent(child);
-        //TODO: setLayer API unavaialble
-        /*final int layerType = mPageTransformer == null ? Component.LAYER_TYPE_NONE : Component.LAYER_TYPE_HARDWARE;
-        child.setLayerType(layerType, null);*/
+        /**
+         *         //TODO: setLayer API unavaialble
+         *         final int layerType = mPageTransformer == null ? Component.LAYER_TYPE_NONE : Component.LAYER_TYPE_HARDWARE;
+         *         child.setLayerType(layerType, null);
+         */
     }
 
     /**
@@ -723,7 +731,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     private int viewPosition(Component child) {
         final int size = mItems.size();
         for (int i = 0; i < size; i++) {
-            if (mItems.get(i).fragment.get().getComponent() == child) {
+            if (mItems.get(i).fraction.get().getComponent() == child) {
                 return i;
             }
         }
@@ -733,7 +741,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
     private void sortChildDrawingOrder() {
         if (mDrawingOrder != DRAW_ORDER_DEFAULT) {
             if (mDrawingOrderedChildren == null) {
-                mDrawingOrderedChildren = new ArrayList();
+                mDrawingOrderedChildren = new ArrayList<>();
             } else {
                 mDrawingOrderedChildren.clear();
             }
@@ -749,43 +757,46 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
             Collections.sort(mDrawingOrderedChildren, sPositionComparator);
         }
     }
-    //TODO: unavailable API
-    /*@Override
-    protected int getChildDrawingOrder(int childCount, int i) {
-        final int index = mDrawingOrder == DRAW_ORDER_REVERSE ? childCount - 1 - i : i;
-        final int result = ((LayoutParams) mDrawingOrderedChildren.get(index).getLayoutConfig()).childIndex;
-        return result;
-    }*/
 
-    /*@Override
-    protected ComponentContainer.LayoutConfig generateDefaultLayoutParams() {
-        return new LayoutParams();
-    }*/
-
-    /*@Override
-    public LayoutConfig createLayoutConfig(Context context, AttrSet attrSet) {
-        return generateDefaultLayoutParams();
-    }*/
-
-    /*@Override
-    protected ComponentContainer.LayoutConfig createLayoutConfig(ComponentContainer.LayoutConfig p,AttrSet attrs) {
-        return generateDefaultLayoutParams();
-    }*/
-
-    @Override
-    public LayoutConfig createLayoutConfig(Context context, AttrSet attrSet) {
-        return  new LayoutParams(getContext(), attrSet);
-    }
+    /**
+     * //TODO: unavailable API
+     *     @Override
+     *     protected int getChildDrawingOrder(int childCount, int i) {
+     *         final int index = mDrawingOrder == DRAW_ORDER_REVERSE ? childCount - 1 - i : i;
+     *         final int result = ((LayoutParams) mDrawingOrderedChildren.get(index).getLayoutConfig()).childIndex;
+     *         return result;
+     *     }
+     *
+     *     @Override
+     *     protected ComponentContainer.LayoutConfig generateDefaultLayoutParams() {
+     *         return new LayoutParams();
+     *     }
+     *
+     *     @Override
+     *     public LayoutConfig createLayoutConfig(Context context, AttrSet attrSet) {
+     *         return generateDefaultLayoutParams();
+     *     }
+     *
+     *     @Override
+     *     protected ComponentContainer.LayoutConfig createLayoutConfig(ComponentContainer.LayoutConfig p,AttrSet attrs) {
+     *         return generateDefaultLayoutParams();
+     *     }
+     *
+     *     @Override
+     *     public LayoutConfig createLayoutConfig(Context context, AttrSet attrSet) {
+     *         return  new LayoutParams(getContext(), attrSet);
+     *     }
+     *     @Override
+     *     public ComponentContainer.LayoutConfig generateLayoutParams(AttrSet attrs) {
+     *         return new LayoutParams(getContext(), attrs);
+     *     }
+     */
 
     @Override
     public LayoutConfig verifyLayoutConfig(ComponentContainer.LayoutConfig p) {
         return super.verifyLayoutConfig(p);
     }
 
-    /*@Override
-    public ComponentContainer.LayoutConfig generateLayoutParams(AttrSet attrs) {
-        return new LayoutParams(getContext(), attrs);
-    }*/
 
     public class PagerObserver implements DataObserver {
         PagerObserver() {
@@ -834,10 +845,7 @@ class ZBannerRaw extends ComponentContainer implements ComponentContainer.Arrang
 
         public LayoutParams(Context context, AttrSet attrs) {
             super(context, attrs);
-            //final Theme a = context.obtainStyledAttributes(attrs, LAYOUT_ATTRS); //getTypedAttributes
-            gravity = LayoutAlignment.TOP;
-            //a.recycle();
-        }
+            gravity = LayoutAlignment.TOP;        }
     }
 
     static class ViewPositionComparator implements Comparator<Component> {
