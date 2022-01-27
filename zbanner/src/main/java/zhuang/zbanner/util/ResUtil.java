@@ -9,10 +9,7 @@ import ohos.media.image.PixelMap;
 import java.io.IOException;
 import java.util.Optional;
 
-public final class ResUtil {
-    private  ResUtil(){
-        LogUtil.error("Util", "RestUtil is called");
-    }
+public class ResUtil {
     public static Optional<PixelMap> getPixelMap(Context context, int id) {
         String path = getPathById(context, id);
         if (path.isEmpty()) {
@@ -27,7 +24,7 @@ public final class ResUtil {
             ImageSource source = ImageSource.create(asset, options);
             return Optional.ofNullable(source.createPixelmap(decodingOptions));
         } catch (IOException e) {
-            LogUtil.error("error",e+"");
+
         }
         return Optional.empty();
     }
@@ -47,7 +44,6 @@ public final class ResUtil {
     public static String getPathById(Context context, int id) {
 
         String path = "";
-        String error = "error";
         if (context == null) {
             return path;
         }
@@ -58,12 +54,9 @@ public final class ResUtil {
         try {
             path = manager.getMediaPath(id);
         } catch (IOException e) {
-            LogUtil.error(error,e+"");
 
         } catch (NotExistException e) {
-            LogUtil.error(error,e+"");
         } catch (WrongTypeException e) {
-            LogUtil.error(error,e+"");
         }
         return path;
     }

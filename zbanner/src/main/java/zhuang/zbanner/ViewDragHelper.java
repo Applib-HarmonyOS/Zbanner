@@ -1,16 +1,18 @@
 /*
- * Copyright (C) 2013 The Android Open Source Project .
+ * Copyright (C) 2013 The Android Open Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- **/
-
+ */
 package zhuang.zbanner;
 
 import zhuang.zbanner.util.LogUtil;
@@ -333,10 +335,11 @@ class ViewDragHelper {
         }
     };
 
-
-
-    private final Runnable mSetIdleRunnable = () ->{
-        setDragState(STATE_IDLE);
+    private final Runnable mSetIdleRunnable = new Runnable() {
+        @Override
+        public void run() {
+            setDragState(STATE_IDLE);
+        }
     };
 
     /**
@@ -394,9 +397,6 @@ class ViewDragHelper {
 
 
         mScroller = new ScrollHelper();
-
-        if(context == null)
-            LogUtil.error("error", "Sample test");
     }
 
     /**
@@ -1101,7 +1101,7 @@ class ViewDragHelper {
         if (pastSlop) {
 
             // function to resolve cognitive complexity .
-            if(cognifunc4(toCapture, dx, dy) == 1);
+            if( cognifunc4(toCapture,dx,dy) == 1);
             return 0;
         }
         reportNewEdgeDrags(dx, dy, pointerId);
@@ -1110,13 +1110,9 @@ class ViewDragHelper {
             return 0;
         }
 
-        /**
-         *         if (tryCaptureViewForDrag(toCapture, pointerId)  && (pastSlop==false) ) {
-         *             return 0;
-         *         }
-         */
-
-
+        if (pastSlop && tryCaptureViewForDrag(toCapture, pointerId)) {
+            return 0;
+        }
         return 1;
     }
 
@@ -1152,12 +1148,12 @@ class ViewDragHelper {
      * @param ev The touch event received by the parent view
      */
     public void processTouchEvent(TouchEvent ev) {
-        final int action2 = ev.getAction();
-        final int action_Index = ev.getIndex();
-        int index2 = ev.getPointerId(action_Index);
-        MmiPoint point2= ev.getPointerPosition(index2);
+        final int action = ev.getAction();
+        final int actionIndex = ev.getIndex();
+        int index = ev.getPointerId(actionIndex);
+        MmiPoint point = ev.getPointerPosition(index);
 
-        if (action2 == TouchEvent.PRIMARY_POINT_DOWN) {
+        if (action == TouchEvent.PRIMARY_POINT_DOWN) {
             // Reset things for a new event stream, just in case we didn't get
             // the whole previous stream.
             cancel();
@@ -1168,12 +1164,11 @@ class ViewDragHelper {
         }
         mVelocityTracker.addEvent(ev);
 
-        switch (action2) {
+        switch (action) {
             case TouchEvent.PRIMARY_POINT_DOWN: {
-                final float x = point2.getX();
-                final float y = point2.getY();
+                final float x = point.getX();
+                final float y = point.getY();
                 final int pointerId = ev.getPointerId(0);
-
                 final Component toCapture = findTopChildUnder((int) x, (int) y);
 
                 saveInitialMotion(x, y, pointerId);
@@ -1191,9 +1186,9 @@ class ViewDragHelper {
             }
 
             case TouchEvent.OTHER_POINT_DOWN: {
-                final int pointerId = ev.getPointerId(action_Index);
-                final float x = point2.getX();
-                final float y = point2.getY();
+                final int pointerId = ev.getPointerId(actionIndex);
+                final float x = point.getX();
+                final float y = point.getY();
 
                 saveInitialMotion(x, y, pointerId);
 
@@ -1220,11 +1215,11 @@ class ViewDragHelper {
 
             case TouchEvent.POINT_MOVE:
             {
-                cognifunc6(point2,ev);
+                cognifunc6(point,ev);
                 break;
             }
             case TouchEvent.OTHER_POINT_UP: {
-                final int pointerId = ev.getPointerId(action_Index);
+                final int pointerId = ev.getPointerId(actionIndex);
 
                 cognidun7(ev,pointerId);
                 //till
@@ -1301,20 +1296,20 @@ class ViewDragHelper {
             saveLastMotion(ev);
         } else {
             // Check to see if any pointer is now over a draggable view.
-            final int pointer_Count = ev.getPointerCount();
-            for (int i = 0; i < pointer_Count; i++) {
-                final int pointer_Id = ev.getPointerId(i);
+            final int pointerCount = ev.getPointerCount();
+            for (int i = 0; i < pointerCount; i++) {
+                final int pointerId = ev.getPointerId(i);
 
                 // If pointer is invalid then skip the ACTION_MOVE.
-                if (!isValidPointerForActionMove(pointer_Id)) continue;
+                if (!isValidPointerForActionMove(pointerId)) continue;
 
                 MmiPoint point1 = ev.getPointerPosition(i);
                 final float x = point1.getX();
                 final float y = point1.getY();
-                final float dx = x - mInitialMotionX[pointer_Id];
-                final float dy = y - mInitialMotionY[pointer_Id];
+                final float dx = x - mInitialMotionX[pointerId];
+                final float dy = y - mInitialMotionY[pointerId];
 
-                reportNewEdgeDrags(dx, dy, pointer_Id);
+                reportNewEdgeDrags(dx, dy, pointerId);
 /**
  * if (mDragState == STATE_DRAGGING) { .
  *                     // Callback might have started an edge drag. .
@@ -1325,7 +1320,7 @@ class ViewDragHelper {
 
                 final Component toCapture = findTopChildUnder((int) x, (int) y);
                 if (checkTouchSlop(toCapture, dx, dy)
-                        && tryCaptureViewForDrag(toCapture, pointer_Id)) {
+                        && tryCaptureViewForDrag(toCapture, pointerId)) {
                     break;
                 }
             }
