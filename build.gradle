@@ -46,7 +46,7 @@ allprojects {
         configFile file("config/checkstyle.xml")
 
         source 'entry/src/main/java'
-        source 'ZBanner/src/main/java'
+        source 'zbanner/src/main/java'
         include '**/*.java'
 
         // empty classpath
@@ -60,11 +60,11 @@ checkstyle {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "fi"
+        property "sonar.projectKey", "applibgroup_ZBanner"
         property "sonar.organization", "applibgroup"
-        property "sonar.host.url", "https://localhost:9000"
-        property "sonar.sources", "entry/src, zbanner/src"
-        property "sonar.java.binaries", "entry/build"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.sources", "entry/src,zbanner/src"
+        property "sonar.java.binaries", "entry/build,zbanner/build"
         property "sonar.java.checkstyle.reportPaths", "build/reports/checkstyle/checkstyle.xml"
     }
 }

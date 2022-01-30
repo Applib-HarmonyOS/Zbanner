@@ -3,7 +3,7 @@
   <component name="CheckStyle-IDEA">
     <option name="configuration">
       <map>
-        <entry key="active-configuration" value="LOCAL_FILE:C:/Users/SYAMALA/Desktop/mahesh_folder/Applib/CheckStyle.xml:HarmonyOSStyle" />
+        <entry key="active-configuration" value="LOCAL_FILE:C:/Users/SYAMALA/Desktop/mahesh_folder/Applib/CheckStyle.xml:CheckStyle" />
         <entry key="checkstyle-version" value="9.0" />
         <entry key="copy-libs" value="true" />
         <entry key="location-0" value="BUNDLED:(bundled):Sun Checks" />
@@ -18,7 +18,7 @@
         <entry key="property-4.org.checkstyle.google.suppressionfilter.config" value="" />
         <entry key="property-4.org.checkstyle.google.suppressionxpathfilter.config" value="" />
         <entry key="scan-before-checkin" value="false" />
-        <entry key="scanscope" value="JavaOnly" />
+        <entry key="scanscope" value="JavaOnlyWithTests" />
         <entry key="suppress-errors" value="false" />
       </map>
     </option>
