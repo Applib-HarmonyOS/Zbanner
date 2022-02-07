@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<zhuang.zbanner.ZBanner
+    xmlns:custom="http://schemas.huawei.com/res/custom"
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:id="$+id:zBanner"
+    ohos:width="match_parent"
+    ohos:height="200fp"
+    custom:indicatorIconSize="12dp"
+    custom:indicatorMargin="2dp"
+    custom:indicatorSelectIcon="@drawable/ic_indicator_line_select"
+    custom:indicatorUnSelectIcon="@drawable/ic_indicator_line_unselect"
+    custom:offscreenPageLimit="2" />
+

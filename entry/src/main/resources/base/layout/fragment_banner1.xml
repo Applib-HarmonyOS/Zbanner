@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StackLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:width="match_parent"
+    ohos:height="match_parent">
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        ohos:id="$+id:imageView"
+        ohos:width="match_parent"
+        ohos:height="match_parent"
+        ohos:scale_mode="zoom_center" />
+</StackLayout>
